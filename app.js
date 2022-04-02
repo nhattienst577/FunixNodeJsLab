@@ -1,4 +1,4 @@
-//1.4 chuyển hướng request, kết nối req và res
+//1.6 Đọc body của request
 const http = require("http");
 const fs = require("fs");
 
@@ -18,7 +18,18 @@ const server = http.createServer((req, res) => {
   }
 
   if (url === "/message" && method === "POST") {
-    fs.writeFileSync("message.txt", "DUMMY");
+    const body = [];
+    req.on("data", (chunk) => {
+      console.log(chunk);
+      body.push(chunk);
+    }); //lắng nghe các sự kiện nhất định eventListener
+    //buffer
+    req.on("end", () => {
+      const parsedBody = Buffer.concat(body).toString();
+      console.log(parsedBody);
+      const message = parsedBody.split("=")[1];
+      fs.writeFileSync("message.txt", message);
+    });
     res.statusCode = 302;
     res.setHeader("Location", "/");
     return res.end();
