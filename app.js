@@ -12,6 +12,8 @@ const shopRouters = require("./router/shop");
 //Dữ liệu đó là một cặp key-value, trong đó value có thể là array hoặc string nếu extended: false và các loại còn lại nếu extended: true.
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use("/admin", adminRouters);
 
 app.use(shopRouters);
