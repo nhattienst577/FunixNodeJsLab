@@ -1,4 +1,4 @@
-extends layouts/main-layout.pug 
+extends layouts/main-layout.pug
 
 block styles
     link(rel="stylesheet", href="/css/forms.css")
@@ -7,7 +7,7 @@ block styles
 block content
     main
         form.product-form(action="/admin/add-product", method="POST")
-            div.form-control
+            .form-control
                 label(for="title") Title
-                input(type="text", name="title", id="title")
+                input(type="text", name="title")#title
             button.btn(type="submit") Add Product
