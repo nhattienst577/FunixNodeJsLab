@@ -5,7 +5,7 @@ const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
 
 const app = express();
 
-const adminRouters = require("./router/admin");
+const adminData = require("./router/admin");
 const shopRouters = require("./router/shop");
 
 //là một đối tượng body chứa dữ liệu mà đã được parsed sẽ được đưa vào request (có thể hiểu là req.body).
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/admin", adminRouters);
+app.use("/admin", adminData.routes);
 
 app.use(shopRouters);
 
