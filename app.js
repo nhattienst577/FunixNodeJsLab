@@ -1,12 +1,16 @@
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
+const expressHbs = require("express-handlebars");
 const app = express();
 const adminData = require("./router/admin");
 const shopRouters = require("./router/shop");
 
+//Thiet lap templating engine by handlebars
+app.engine("hbs", expressHbs());
+
 //template engine
-app.set("view engine", "pug");
+app.set("view engine", "hbs");
 app.set("views", "views");
 
 //là một đối tượng body chứa dữ liệu mà đã được parsed sẽ được đưa vào request (có thể hiểu là req.body).
