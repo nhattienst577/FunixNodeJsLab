@@ -7,7 +7,14 @@ const adminData = require("./router/admin");
 const shopRouters = require("./router/shop");
 
 //Thiet lap templating engine by handlebars
-app.engine("hbs", expressHbs());
+app.engine(
+  "hbs",
+  expressHbs({
+    layoutsDir: "views/layouts",
+    defaultLayout: "main-layout",
+    extname: "hbs",
+  })
+);
 
 //template engine
 app.set("view engine", "hbs");
