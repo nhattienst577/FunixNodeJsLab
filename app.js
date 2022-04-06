@@ -1,23 +1,12 @@
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
-const expressHbs = require("express-handlebars");
 const app = express();
 const adminData = require("./router/admin");
 const shopRouters = require("./router/shop");
 
-//Thiet lap templating engine by handlebars
-app.engine(
-  "hbs",
-  expressHbs({
-    layoutsDir: "views/layouts",
-    defaultLayout: "main-layout",
-    extname: "hbs",
-  })
-);
-
 //template engine
-app.set("view engine", "hbs");
+app.set("view engine", "ejs");
 app.set("views", "views");
 
 //là một đối tượng body chứa dữ liệu mà đã được parsed sẽ được đưa vào request (có thể hiểu là req.body).
@@ -27,7 +16,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/admin", adminData.routes);
-
 app.use(shopRouters);
 
 app.use((req, res, next) => {
