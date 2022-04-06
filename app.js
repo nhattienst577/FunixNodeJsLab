@@ -5,8 +5,9 @@ const app = express();
 const adminData = require("./router/admin");
 const shopRouters = require("./router/shop");
 
-//template engine
+//Thiet lap templating engine by EJS
 app.set("view engine", "ejs");
+//Thiet lap noi tim thay bo cuc thu muc views
 app.set("views", "views");
 
 //là một đối tượng body chứa dữ liệu mà đã được parsed sẽ được đưa vào request (có thể hiểu là req.body).
@@ -19,7 +20,16 @@ app.use("/admin", adminData.routes);
 app.use(shopRouters);
 
 app.use((req, res, next) => {
-  res.status(404).render("404", { pageTitle: "Page Not Found" });
+  //res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
+  console.log(req.url);
+  res.status(404).render("404", {
+    pageTitle: "Page Not Found",
+    path: req.url,
+    activeShop: false,
+    activeAddProduct: false,
+    productCSS: false,
+    formCSS: false,
+  });
 });
 
 app.listen(3000);
