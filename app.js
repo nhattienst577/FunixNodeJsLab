@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
 const app = express();
-const adminData = require("./router/admin");
+const adminRoutes = require("./router/admin");
 const shopRouters = require("./router/shop");
 
 //Thiet lap templating engine by EJS
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/admin", adminData.routes);
+app.use("/admin", adminRoutes);
 app.use(shopRouters);
 
 app.use((req, res, next) => {
