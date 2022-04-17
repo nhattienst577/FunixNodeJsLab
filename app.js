@@ -1,6 +1,8 @@
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
+const errorController = require("./controllers/error");
+
 const app = express();
 const adminRoutes = require("./router/admin");
 const shopRouters = require("./router/shop");
@@ -19,17 +21,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/admin", adminRoutes);
 app.use(shopRouters);
 
-app.use((req, res, next) => {
-  //res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-  console.log(req.url);
-  res.status(404).render("404", {
-    pageTitle: "Page Not Found",
-    path: req.url,
-    activeShop: false,
-    activeAddProduct: false,
-    productCSS: false,
-    formCSS: false,
-  });
-});
+app.use(errorController.get404);
 
 app.listen(3000);
