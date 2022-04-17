@@ -7,6 +7,7 @@ module.exports = class Product {
   }
 
   save() {
+    // products.push(this);
     const p = path.join(
       path.dirname(process.mainModule.filename),
       "data",
@@ -24,13 +25,19 @@ module.exports = class Product {
     });
   }
 
-  static fetchAll() {
+  static fetchAll(cb) {
+    //cb = callback
+    const p = path.join(
+      path.dirname(process.mainModule.filename),
+      "data",
+      "products.json"
+    );
     fs.readFile(p, (err, fileContent) => {
       if (err) {
-        return [];
+        cb([]);
       }
-      return JSON.parse(fileContent);
+      cb(JSON.parse(fileContent));
     });
-    return products;
+    // return products;
   }
 };
