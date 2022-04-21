@@ -4,8 +4,8 @@ const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
 const errorController = require("./controllers/error");
 
 const app = express();
-const adminRoutes = require("./router/admin");
-const shopRouters = require("./router/shop");
+const adminRoutes = require("./routes/admin");
+const shopRouters = require("./routes/shop");
 
 //Thiet lap templating engine by EJS
 app.set("view engine", "ejs");
