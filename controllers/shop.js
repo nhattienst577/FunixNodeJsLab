@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const Cart = require("../models/cart");
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll((products) => {
@@ -42,7 +43,10 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId; //productId la name trong product-detail
-  console.log(prodId);
+  Product.findById(prodId, (product) => {
+    //product được truy xuất từ csdl của sp, khi có dữ liệu có thể sd để cập nhật lại
+    Cart.addProduct(prodId, product.price);
+  });
   res.redirect("/cart");
 };
 
