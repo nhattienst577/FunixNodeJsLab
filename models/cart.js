@@ -49,6 +49,9 @@ module.exports = class Cart {
       console.log("this : ", updatedCart);
       const product = updatedCart.products.find((prod) => prod.id === id);
       console.log("this is : ", product);
+      if (!product) {
+        return;
+      }
       const productQty = product.qty;
       updatedCart.products = updatedCart.products.filter(
         (prod) => prod.id !== id
