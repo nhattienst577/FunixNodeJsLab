@@ -62,6 +62,7 @@ module.exports = class Cart {
     });
   }
 
+  //hàm truy cập tệp và trả lại Id tất cả các sản phẩm
   static getCart(cb) {
     fs.readFile(p, (err, fileContent) => {
       const cart = JSON.parse(fileContent);

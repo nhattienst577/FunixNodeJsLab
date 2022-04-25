@@ -35,9 +35,25 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  res.render("shop/cart", {
-    path: "/cart",
-    pageTitle: "Your Cart",
+  Cart.getCart((cart) => {
+    Product.fetchAll((products) => {
+      const cartProducts = [];
+      //lặp lại tất cả sp ktra xem sp có được lưu trữ trong giỏ hàng không
+      for (product of products) {
+        //cartProductData lưu trữ mảng sp trong dữ liệu sp giỏ hàng và sau đó ta sẽ kiểm tra sự tồn tại của sp đó
+        const cartProductData = cart.products.find(
+          (prod) => prod.id === product.id
+        );
+        if (cartProductData) {
+          cartProducts.push({ productData: product, qty: cartProductData.qty });
+        }
+      }
+      res.render("shop/cart", {
+        path: "/cart",
+        pageTitle: "Your Cart",
+        products: cartProducts,
+      });
+    });
   });
 };
 
