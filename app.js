@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/admin", adminRoutes);
 app.use(shopRouters);
 
-db.execute("SELECT * FROM products ");
+db.execute("SELECT * FROM products").then().catch();
 
 app.use(errorController.get404);
 
