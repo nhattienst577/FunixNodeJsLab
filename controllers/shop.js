@@ -32,7 +32,7 @@ exports.getProduct = (req, res, next) => {
     .then((product) => {
       res.render("shop/product-detail", {
         product: product,
-        docTitle: product.title,
+        pageTitle: product.title,
         path: "/products",
       });
     })
