@@ -1,16 +1,23 @@
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
+
+//routes
+const adminRoutes = require("./routes/admin");
+const shopRouters = require("./routes/shop");
+
+//controllers
 const errorController = require("./controllers/error");
+
+//database
 const sequelize = require("./util/database");
 const Product = require("./models/product");
 const User = require("./models/user");
 const Cart = require("./models/cart");
 const CartItem = require("./models/cart-item");
 
+//create app
 const app = express();
-const adminRoutes = require("./routes/admin");
-const shopRouters = require("./routes/shop");
 
 //Thiet lap templating engine by EJS
 app.set("view engine", "ejs");
@@ -22,13 +29,16 @@ app.set("views", "views");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use((res, req, next) => {
+// Store user in request
+app.use((req, res, next) => {
   User.findByPk(1)
     .then((user) => {
       req.user = user;
       next();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.use("/admin", adminRoutes);
@@ -36,10 +46,14 @@ app.use(shopRouters);
 
 app.use(errorController.get404);
 
+// Create relationship for models
+// user & product --- one to many
 Product.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Product);
+// user & cart --- one to one
 User.hasOne(Cart);
 Cart.belongsTo(User);
+// cart & product --- many to many
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
 
