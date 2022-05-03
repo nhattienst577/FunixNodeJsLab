@@ -45,8 +45,8 @@ Product.belongsToMany(Cart, { through: CartItem });
 
 //sync quan sát được toàn bộ model đã được xác định, nó đồng bộ hóa các model tới csdl bằng cách tạo các bảng thích hợp
 sequelize
-  .sync({ force: true })
-  //.sync()
+  //.sync({ force: true })
+  .sync()
   .then((result) => {
     return User.findByPk(1);
     //console.log(result);
@@ -58,7 +58,10 @@ sequelize
     return user;
   })
   .then((user) => {
-    console.log(user);
+    //console.log(user);
+    return user.createCart();
+  })
+  .then((cart) => {
     app.listen(3000);
   })
   .catch((err) => {
