@@ -15,6 +15,8 @@ const Product = require("./models/product");
 const User = require("./models/user");
 const Cart = require("./models/cart");
 const CartItem = require("./models/cart-item");
+const Order = require("./models/order");
+const OrderItem = require("./models/order-item");
 
 //create app
 const app = express();
@@ -56,6 +58,12 @@ Cart.belongsTo(User);
 // cart & product --- many to many
 Cart.belongsToMany(Product, { through: CartItem });
 Product.belongsToMany(Cart, { through: CartItem });
+// order & user --- one to many
+Order.belongsTo(User);
+User.hasMany(Order);
+//order & product ---many to many
+Order.belongsToMany(Product, { through: OrderItem });
+Product.belongsToMany(Order, { through: OrderItem });
 
 //sync quan sát được toàn bộ model đã được xác định, nó đồng bộ hóa các model tới csdl bằng cách tạo các bảng thích hợp
 sequelize
