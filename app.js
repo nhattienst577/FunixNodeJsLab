@@ -4,7 +4,7 @@ const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
 
 // routes
 const adminRoutes = require("./routes/admin");
-// const shopRouters = require("./routes/shop");
+const shopRouters = require("./routes/shop");
 
 // controllers
 const errorController = require("./controllers/error");
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/admin", adminRoutes);
-// app.use(shopRouters);
+app.use(shopRouters);
 
 app.use(errorController.get404);
 
