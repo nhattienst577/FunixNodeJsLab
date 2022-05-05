@@ -3,14 +3,14 @@ const express = require("express");
 const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
 
 // routes
-// const adminRoutes = require("./routes/admin");
+const adminRoutes = require("./routes/admin");
 // const shopRouters = require("./routes/shop");
 
 // controllers
-// const errorController = require("./controllers/error");
+const errorController = require("./controllers/error");
 
 // database
-const mongoConnect = require("./util/database");
+const mongoConnect = require("./util/database").mongoConnect;
 
 //create app
 const app = express();
@@ -35,9 +35,10 @@ app.use((req, res, next) => {
   //   .catch((err) => {
   //     console.log(err);
   //   });
+  next();
 });
 
-// app.use("/admin", adminRoutes);
+app.use("/admin", adminRoutes);
 // app.use(shopRouters);
 
 // app.use(errorController.get404);
