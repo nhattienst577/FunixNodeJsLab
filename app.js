@@ -6,6 +6,9 @@ const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
 const adminRoutes = require("./routes/admin");
 const shopRouters = require("./routes/shop");
 
+// user model
+const User = require("./models/user");
+
 // controllers
 const errorController = require("./controllers/error");
 
@@ -27,15 +30,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Store user in request
 app.use((req, res, next) => {
-  // User.findByPk(1)
-  //   .then((user) => {
-  //     req.user = user;
-  //     next();
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-  next();
+  User.findById("6283b66b895fd24579c1f3f1")
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 app.use("/admin", adminRoutes);
