@@ -2,30 +2,39 @@ const mongodb = require("mongodb");
 const getDb = require("../util/database").getDb;
 
 class Product {
-  constructor(title, price, description, imageUrl, id) {
+  constructor(title, imageUrl, price, description, id) {
     this.title = title;
+    this.imageUrl = imageUrl;
     this.price = price;
     this.description = description;
-    this.imageUrl = imageUrl;
     this._id = id;
   }
 
   save() {
-    const db = getDb();
+    let db = getDb();
     let dbOp;
     if (this._id) {
-      //update the products
-      dbOp = db
-        .collection("product")
-        .updatedOne({ _id: new mongodb.ObjectId(this._id) }, { $set: this });
+      dbOp = db.collection("products").updateOne(
+        { _id: new mongodb.ObjectId(this._id) },
+        {
+          $set: {
+            title: this.title,
+            imageUrl: this.imageUrl,
+            price: this.price,
+            description: this.description,
+          },
+        }
+      );
     } else {
-      dbOp = db.collection("product").insertOne(this);
+      dbOp = db.collection("products").insertOne(this);
     }
     return dbOp
-      .then((result) => {
-        console.log(result);
+      .then((results) => {
+        console.log(results);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   //tim nap tat ca sp
