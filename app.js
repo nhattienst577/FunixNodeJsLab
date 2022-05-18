@@ -6,6 +6,9 @@ const bodyParser = require("body-parser"); // duoc sd de xu ly from nhap vao
 const adminRoutes = require("./routes/admin");
 const shopRouters = require("./routes/shop");
 
+//mongoose
+const mongoose = require("mongoose");
+
 // user model
 const User = require("./models/user");
 
@@ -13,7 +16,7 @@ const User = require("./models/user");
 const errorController = require("./controllers/error");
 
 // database
-const mongoConnect = require("./util/database").mongoConnect;
+//const mongoConnect = require("./util/database").mongoConnect;
 
 //create app
 const app = express();
@@ -45,6 +48,13 @@ app.use(shopRouters);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose
+  .connect(
+    "mongodb+srv://admin:nhattien123@cluster0.ywhvs.mongodb.net/shop?retryWrites=true&w=majority"
+  )
+  .then((results) => {
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
