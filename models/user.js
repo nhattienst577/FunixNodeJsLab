@@ -78,6 +78,22 @@ class User {
       );
   }
 
+  addOrder() {
+    const db = getDb(); // cap quyen truy cap vao csdl
+    return db
+      .collection("orders")
+      .insertOne(this.cart)
+      .then((result) => {
+        this.cart = { items: [] };
+        return db
+          .collection("users")
+          .updateOne(
+            { _id: new ObjectId(this._id) },
+            { $set: { cart: { items: [] } } }
+          );
+      });
+  }
+
   //tim user
   static findById(userId) {
     const db = getDb();
