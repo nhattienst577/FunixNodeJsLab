@@ -106,6 +106,10 @@ class User {
   //phuong thuc de trang order hoat dong lai
   getOrders() {
     const db = getDb(); // cap quyen truy cap vao csdl
+    return db
+      .collection("orders")
+      .find({ "user._id": new ObjectId(this._id) })
+      .toArray();
   }
 
   //tim user
