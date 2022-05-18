@@ -80,9 +80,18 @@ class User {
 
   addOrder() {
     const db = getDb(); // cap quyen truy cap vao csdl
-    return db
-      .collection("orders")
-      .insertOne(this.cart)
+    return this.getCart()
+      .then((products) => {
+        const order = {
+          items: products,
+          user: {
+            _id: new ObjectId(this._id),
+            name: this.name,
+          },
+        };
+        return db.collection("orders").insertOne(order);
+      })
+
       .then((result) => {
         this.cart = { items: [] };
         return db
@@ -92,6 +101,11 @@ class User {
             { $set: { cart: { items: [] } } }
           );
       });
+  }
+
+  //phuong thuc de trang order hoat dong lai
+  getOrders() {
+    const db = getDb(); // cap quyen truy cap vao csdl
   }
 
   //tim user
