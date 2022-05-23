@@ -10,7 +10,7 @@ const shopRouters = require("./routes/shop");
 const mongoose = require("mongoose");
 
 // user model
-// const User = require("./models/user");
+const User = require("./models/user");
 
 // controllers
 const errorController = require("./controllers/error");
@@ -32,16 +32,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Store user in request
-// app.use((req, res, next) => {
-//   User.findById("6283b66b895fd24579c1f3f1")
-//     .then((user) => {
-//       req.user = new User(user.name, user.email, user.cart, user._id);
-//       next();
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// });
+app.use((req, res, next) => {
+  User.findById("6283b66b895fd24579c1f3f1")
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 app.use("/admin", adminRoutes);
 app.use(shopRouters);
@@ -53,6 +53,19 @@ mongoose
     "mongodb+srv://admin:nhattien123@cluster0.ywhvs.mongodb.net/shop?retryWrites=true&w=majority"
   )
   .then((results) => {
+    User.findOne().then((user) => {
+      if (!user) {
+        const user = new User({
+          name: "NhatTienLam",
+          email: "nhattienst577@gmail.com",
+          cart: {
+            items: [],
+          },
+        });
+        user.save();
+      }
+    });
+
     app.listen(3000);
   })
   .catch((err) => {
