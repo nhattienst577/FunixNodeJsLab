@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Store user in request
 app.use((req, res, next) => {
-  User.findById("6283b66b895fd24579c1f3f1")
+  User.findById("628b3bb3f0176621c7db4caa")
     .then((user) => {
       req.user = user;
       next();
